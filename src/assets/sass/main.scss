@@ -1,0 +1,35 @@
+/* Tailwindcss import */
+@tailwind preflight;
+@tailwind utilities;
+
+/* Google Fonts */
+@import url('https://fonts.googleapis.com/css?family=Open+Sans|Raleway:300,400,500');
+
+/* Body */
+body {
+  @apply bg-blue-darker;
+  font-family: 'Open Sans', sans-serif;  
+  position: fixed;
+}
+
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  overflow-y: scroll;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Links */
+a,button {
+  @apply text-blue-light no-underline;
+  outline: none !important; 
+}
+
+/* Headers and paragrafs */
+h1,h2,h3,h4,h5,h6 {
+  @apply text-white;
+  font-family: 'Raleway', sans-serif;    
+}
+p {
+  @apply text-white;  
+}

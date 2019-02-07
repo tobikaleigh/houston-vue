@@ -1,29 +1,27 @@
 <template>
-  <div id="app">
-    <div id="nav">
-      <router-link to="/">Home</router-link> |
-      <router-link to="/about">About</router-link>
+  <div id="app" class="wrapper">
+    <div id="nav" class="bg-blue-darkest">
+      <router-link to="/" class="menu-item">Dashboard</router-link>
+      <router-link to="/about" class="menu-item">Statistics</router-link>
     </div>
-    <router-view/>
+    <div class="pt-8 px-8">
+      <router-view/>
+    </div>
   </div>
 </template>
 
 <style lang="scss">
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-#nav {
-  padding: 30px;
-  a {
-    font-weight: bold;
-    color: #2c3e50;
-    &.router-link-exact-active {
-      color: #42b983;
-    }
+.menu-item {
+  @apply px-8 py-5 inline-block border-b-2 border-blue-darkest;
+
+  &:hover {
+    @apply text-white;
   }
 }
+
+.router-link-exact-active {
+  @apply text-white border-b-2 border-indigo-lighter;
+}
 </style>
+
+

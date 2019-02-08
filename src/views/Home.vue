@@ -55,7 +55,7 @@ export default {
 
   methods: {
     getDevices: function() {
-      Axios.get('http://houston.local/api/devices')
+      Axios.get(this.$API_LOCATION+'devices')
         .then((response) => {
           this.devices = response.data.data;
         }).catch(e => {

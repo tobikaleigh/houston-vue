@@ -19,10 +19,10 @@ export default {
   },
   computed: {
     updatedAtInSeconds() {
-      return Math.trunc(this.updatedAt.getTime() / 1000); 
+      return this.updatedAt / 1000;
     },
     nowInSeconds() {
-      return Math.trunc(this.now / 1000);
+      return this.now / 1000;
     },
     seconds() {
       return Math.trunc(this.nowInSeconds - this.updatedAtInSeconds) % 60;

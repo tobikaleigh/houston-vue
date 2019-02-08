@@ -111,7 +111,7 @@ export default {
 
   computed: {
     updatedAt: function() {
-      return new Date(this.data.updated_at*1000); //Converting from seconds(Unix) to milliseconds
+      return new Date(this.data.updated_at*1000).getTime(); //Converting from seconds(Unix) to milliseconds
     },
   },
 
@@ -119,7 +119,7 @@ export default {
     execute: function() {
       this.isLoading = true;
       
-      Axios.put('http://houston.local/api/devices/'+this.device.id, {
+      Axios.put(this.$API_LOCATION+'devices/'+this.device.id, {
         state: this.data.state ? 0:1,
       }).then((response) => {
         this.data.state = response.data.data.state;

@@ -3,7 +3,7 @@ import App from './App.vue';
 import router from './router';
 import '@/assets/sass/main.scss';
 
-Vue.prototype.$API_LOCATION = 'http://houston.local/api/';
+Vue.prototype.$API_LOCATION = 'http://192.168.1.161:8080/api/';
 Vue.config.productionTip = false;
 
 new Vue({

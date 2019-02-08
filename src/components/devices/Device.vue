@@ -4,7 +4,7 @@
       <p class="name">
         <i class="icon" v-bind:class="[data.state ? 'active':'', device.fa_icon]"></i>
         <span>{{ device.name }}</span>
-        <span v-if="data.state"><Timer v-bind:updatedAt="updatedAt"/></span>
+        <span v-if="data.state"><Timer v-bind:updatedAt="updatedAt" class="text-grey-dark"/></span>
       </p>
       <div class="flex">
         <div class="w-2/3 mx-auto">
@@ -109,6 +109,12 @@ export default {
     }
   },
 
+  mounted() {
+    setInterval(() => {
+      this.update();
+    }, 1000);
+  },
+
   computed: {
     updatedAt: function() {
       return new Date(this.data.updated_at*1000).getTime(); //Converting from seconds(Unix) to milliseconds
@@ -129,6 +135,17 @@ export default {
         console.log('failed!');
         this.isLoading = false;
       });
+    },
+
+    update() {
+      Axios.get(this.$API_LOCATION+'devices/'+this.device.id)
+        .then((response) => {
+          if(response.data.data.state != this.data.state) {
+            this.data.state = response.data.data.state;
+          }
+        }).catch((error) => {
+          alert('Failed to update device!');
+        });
     },
   },
 }

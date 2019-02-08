@@ -142,6 +142,7 @@ export default {
         .then((response) => {
           if(response.data.data.state != this.data.state) {
             this.data.state = response.data.data.state;
+            this.data.updated_at = response.data.data.updated_at;
           }
         }).catch((error) => {
           alert('Failed to update device!');

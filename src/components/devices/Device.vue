@@ -9,17 +9,17 @@
       <div class="flex">
         <div class="w-2/3 mx-auto">
           <div class="stats mt-4" v-if="showStats">
-            <p class="description" v-if="!data.state">
+            <p class="description mb-4 text-lg" style="padding: 0.344rem 0;" v-if="!data.state">
               <span>Down for</span>
               <Timer v-bind:updatedAt="updatedAt"/>
             </p>
             <p class="description">
-              <span>This Week</span>
-              N/A
+              <span>This week</span>
+              {{ activeThisWeek }}
             </p>
-            <p class="description">
+            <p class="description" v-if="data.active_this_week != data.active_this_month">
               <span>This month</span>
-              N/A
+               {{ activeThisMonth }}
             </p>
           </div>
         </div>
@@ -56,7 +56,7 @@
       font-size: 60pt;
 
       &.active {
-        @apply text-yellow;
+        @apply text-yellow-dark;
       }
     }
 
@@ -104,7 +104,9 @@ export default {
       data: {
         name: this.device.name,
         state: this.device.state,
-        updated_at: this.device.updated_at
+        updated_at: this.device.updated_at,
+        active_this_week: this.device.active_this_week,
+        active_this_month: this.device.active_this_month,
       },
     }
   },
@@ -119,6 +121,12 @@ export default {
     updatedAt: function() {
       return new Date(this.data.updated_at*1000).getTime(); //Converting from seconds(Unix) to milliseconds
     },
+    activeThisWeek() {
+      return this.formatSeconds('hours', this.data.active_this_week)+'h '+this.formatSeconds('minutes', this.data.active_this_week)+'m';
+    },
+    activeThisMonth() {
+      return this.formatSeconds('hours', this.data.active_this_month)+'h '+this.formatSeconds('minutes', this.data.active_this_month)+'m';
+    }
   },
 
   methods: {
@@ -148,6 +156,16 @@ export default {
           alert('Failed to update device!');
         });
     },
+
+    formatSeconds($format, $seconds) {
+      if($format == 'hours') {
+        return Math.trunc($seconds / 3600);
+      }
+
+      if($format == 'minutes') {
+        return Math.trunc(($seconds / 60) % 60);
+      }
+    }
   },
 }
 </script>

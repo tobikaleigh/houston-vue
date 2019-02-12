@@ -8,11 +8,17 @@
       </p>
       <div class="flex">
         <div class="w-2/3 mx-auto">
-          <div class="stats mt-4" v-if="showStats">
-            <p class="description mb-4 text-lg" style="padding: 0.344rem 0;" v-if="!data.state">
-              <span>Down for</span>
-              <Timer v-bind:updatedAt="updatedAt"/>
-            </p>
+        <div class="stats mt-4">
+          <p class="description mb-4 text-lg" style="padding: 0.344rem 0;" v-if="!data.state">
+            <span>Down for</span>
+            <Timer v-bind:updatedAt="updatedAt"/>
+          </p>
+          <p class="description">
+            <span>Today</span>
+            {{ activeToday }}
+          </p>
+        </div>
+          <div class="stats" v-if="showStats">
             <p class="description">
               <span>This week</span>
               {{ activeThisWeek }}
@@ -105,6 +111,7 @@ export default {
         name: this.device.name,
         state: this.device.state,
         updated_at: this.device.updated_at,
+        active_today: this.device.active_today,
         active_this_week: this.device.active_this_week,
         active_this_month: this.device.active_this_month,
       },
@@ -120,6 +127,9 @@ export default {
   computed: {
     updatedAt: function() {
       return new Date(this.data.updated_at*1000).getTime(); //Converting from seconds(Unix) to milliseconds
+    },
+    activeToday() {
+      return this.formatSeconds('hours', this.data.active_today)+'h '+this.formatSeconds('minutes', this.data.active_today)+'m';
     },
     activeThisWeek() {
       return this.formatSeconds('hours', this.data.active_this_week)+'h '+this.formatSeconds('minutes', this.data.active_this_week)+'m';

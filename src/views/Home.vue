@@ -5,7 +5,7 @@
       <h1>Devices</h1>
     </div>
     <div class="flex-1 text-right">
-      <button type="button" v-on:click="showStats = !showStats">
+      <button type="button" v-on:click="toggleStats();">
         {{ showStats ? 'Hide stats':'Show stats' }}
       </button>
     </div>
@@ -43,7 +43,7 @@ export default {
   },
   data: function() {
     return {
-      showStats: false,
+      showStats: 0,
 
       devices: {},
     }
@@ -51,6 +51,7 @@ export default {
 
   created: function() {
     this.getDevices();
+    this.getSettings();
   },
 
   methods: {
@@ -61,6 +62,18 @@ export default {
         }).catch(e => {
           alert('Error: '+error.data.msg);
         });
+    },
+    getSettings: function() {
+      Axios.get(this.$API_LOCATION+'config/settings')
+        .then((response) => {
+          this.showStats = Boolean(response.data.dashboard_show_stats);
+        });
+    },
+    toggleStats: function() {
+      this.showStats = !this.showStats;
+      Axios.put(this.$API_LOCATION+'config/settings', {
+        dashboard_show_stats: this.showStats,
+      });
     }
   },
 };

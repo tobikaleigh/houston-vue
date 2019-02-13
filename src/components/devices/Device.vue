@@ -121,7 +121,7 @@ export default {
   mounted() {
     setInterval(() => {
       this.update();
-    }, 1000);
+    }, 5000);
   },
 
   computed: {
@@ -158,10 +158,7 @@ export default {
     update() {
       Axios.get(this.$API_LOCATION+'devices/'+this.device.id)
         .then((response) => {
-          if(response.data.data.state != this.data.state) {
-            this.data.state = response.data.data.state;
-            this.data.updated_at = response.data.data.updated_at;
-          }
+          this.data = response.data.data;
         }).catch((error) => {
           alert('Failed to update device!');
         });

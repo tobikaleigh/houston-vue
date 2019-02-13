@@ -43,7 +43,7 @@ export default {
   },
   data: function() {
     return {
-      showStats: 0,
+      showStats: false,
 
       devices: {},
     }

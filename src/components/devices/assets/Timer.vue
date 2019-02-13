@@ -7,15 +7,15 @@
 <script>
 export default {
   props: ['updatedAt'],
-  data: function() {
+  data() {
     return {
       now: new Date().getTime(),
-    }
+    };
   },
   mounted() {
     setInterval(() => {
       this.now = new Date().getTime();
-    },1000);
+    }, 1000);
   },
   computed: {
     updatedAtInSeconds() {
@@ -32,20 +32,19 @@ export default {
     },
     hours() {
       return Math.trunc((this.nowInSeconds - this.updatedAtInSeconds) / 3600);
-    }
+    },
   },
   filters: {
-    twoDigits: function(value) {
-      if(value < 1) {
+    twoDigits(value) {
+      if (value < 1) {
         return '00';
       }
-      if(value < 10) {
-        return '0'+value;
+      if (value < 10) {
+        return `0${value}`;
       }
       return value;
-    }
-  }
-  
-}
-</script>
+    },
+  },
 
+};
+</script>

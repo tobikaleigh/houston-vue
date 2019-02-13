@@ -93,7 +93,6 @@
 </style>
 
 <script>
-import moment from 'moment';
 import Axios from 'axios';
 import Timer from '@/components/devices/assets/Timer.vue';
 
@@ -102,7 +101,7 @@ export default {
   components: {
     Timer,
   },
-  data: function() {
+  data() {
     return {
 
       isLoading: false,
@@ -115,7 +114,7 @@ export default {
         active_this_week: this.device.active_this_week,
         active_this_month: this.device.active_this_month,
       },
-    }
+    };
   },
 
   mounted() {
@@ -125,56 +124,57 @@ export default {
   },
 
   computed: {
-    updatedAt: function() {
-      return new Date(this.data.updated_at*1000).getTime(); //Converting from seconds(Unix) to milliseconds
+    updatedAt() {
+      // Converting from seconds(Unix) to milliseconds
+      return new Date(this.data.updated_at * 1000).getTime();
     },
     activeToday() {
-      return this.formatSeconds('hours', this.data.active_today)+'h '+this.formatSeconds('minutes', this.data.active_today)+'m';
+      return `${this.formatSeconds('hours', this.data.active_today)}h ${this.formatSeconds('minutes', this.data.active_today)}m`;
     },
     activeThisWeek() {
-      return this.formatSeconds('hours', this.data.active_this_week)+'h '+this.formatSeconds('minutes', this.data.active_this_week)+'m';
+      return `${this.formatSeconds('hours', this.data.active_this_week)}h ${this.formatSeconds('minutes', this.data.active_this_week)}m`;
     },
     activeThisMonth() {
-      return this.formatSeconds('hours', this.data.active_this_month)+'h '+this.formatSeconds('minutes', this.data.active_this_month)+'m';
-    }
+      return `${this.formatSeconds('hours', this.data.active_this_month)}h ${this.formatSeconds('minutes', this.data.active_this_month)}m`;
+    },
   },
 
   methods: {
-    execute: function() {
+    execute() {
       this.isLoading = true;
-      
-      Axios.put(this.$API_LOCATION+'devices/'+this.device.id, {
-        state: this.data.state ? 0:1,
+
+      Axios.put(`${this.$API_LOCATION}devices/${this.device.id}`, {
+        state: this.data.state ? 0 : 1,
       }).then((response) => {
         this.data.state = response.data.data.state;
         this.data.updated_at = response.data.data.updated_at;
         this.isLoading = false;
-      }).catch((error) => {
-        console.log('failed!');
+      }).catch(() => {
+        console.log('Failed to execute device!');
         this.isLoading = false;
       });
     },
 
     update() {
-      Axios.get(this.$API_LOCATION+'devices/'+this.device.id)
+      Axios.get(`${this.$API_LOCATION}devices/${this.device.id}`)
         .then((response) => {
           this.data = response.data.data;
-        }).catch((error) => {
-          alert('Failed to update device!');
+        }).catch(() => {
+          console('Failed to update device!');
         });
     },
 
     formatSeconds($format, $seconds) {
-      if($format == 'hours') {
+      if ($format === 'hours') {
         return Math.trunc($seconds / 3600);
       }
 
-      if($format == 'minutes') {
+      if ($format === 'minutes') {
         return Math.trunc(($seconds / 60) % 60);
       }
-    }
+
+      return 'Format not supported';
+    },
   },
-}
+};
 </script>
-
-

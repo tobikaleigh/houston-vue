@@ -15,7 +15,7 @@
     <div class="px-5 w-full">
       <div class="devices">
         <div class="flex -mx-2">
-          <div class="px-2 w-1/3" v-for="device in devices">
+          <div class="px-2 w-1/3" v-for="device in devices" v-bind:key="device.id">
             <Device v-bind:device="device" v-bind:showStats="showStats"/>
           </div>
         </div>
@@ -27,7 +27,7 @@
 
 <style lang="scss">
 .devices {
-  @apply mt-6;  
+  @apply mt-6;
 }
 </style>
 
@@ -41,40 +41,40 @@ export default {
   components: {
     Device,
   },
-  data: function() {
+  data() {
     return {
       showStats: false,
 
       devices: {},
-    }
+    };
   },
 
-  created: function() {
+  created() {
     this.getDevices();
     this.getSettings();
   },
 
   methods: {
-    getDevices: function() {
-      Axios.get(this.$API_LOCATION+'devices')
+    getDevices() {
+      Axios.get(`${this.$API_LOCATION}devices`)
         .then((response) => {
           this.devices = response.data.data;
-        }).catch(e => {
-          alert('Error: '+error.data.msg);
+        }).catch((e) => {
+          console.log(`Error: ${e.data.msg}`);
         });
     },
-    getSettings: function() {
-      Axios.get(this.$API_LOCATION+'config/settings')
+    getSettings() {
+      Axios.get(`${this.$API_LOCATION}config/settings`)
         .then((response) => {
           this.showStats = Boolean(response.data.dashboard_show_stats);
         });
     },
-    toggleStats: function() {
+    toggleStats() {
       this.showStats = !this.showStats;
-      Axios.put(this.$API_LOCATION+'config/settings', {
+      Axios.put(`${this.$API_LOCATION}config/settings`, {
         dashboard_show_stats: this.showStats,
       });
-    }
+    },
   },
 };
 </script>

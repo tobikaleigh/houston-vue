@@ -23,5 +23,3 @@
   @apply text-white border-b-2 border-indigo-lighter;
 }
 </style>
-
-

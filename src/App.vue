@@ -1,25 +1,51 @@
 <template>
-  <div id="app" class="wrapper">
-    <div id="nav" class="bg-blue-darkest">
-      <router-link to="/" class="menu-item">Dashboard</router-link>
-      <router-link to="/about" class="menu-item">Statistics</router-link>
-    </div>
-    <div class="pt-8 px-8">
-      <router-view/>
-    </div>
-  </div>
+  <v-app id="inspire" dark>
+    <v-toolbar app fixed clipped-left>
+      <v-toolbar-title>
+        <span class="grey--text text--darken-3"><v-icon color="grey darken-3">track_changes</v-icon> Houston Control Center</span>
+      </v-toolbar-title>
+    </v-toolbar>
+    <v-content>
+      <v-container fluid fill-height>
+          <router-view></router-view>
+      </v-container>
+    </v-content>
+    <v-bottom-nav
+      :active.sync="bottomNav"
+      :value="true"
+      absolute
+      color="transparent"
+    >
+      <v-btn
+        color="white"
+        flat
+        @click="navigateTo('devices')"
+      >
+        <span>Devices</span>
+        <v-icon>dashboard</v-icon>
+      </v-btn>
+
+      <v-btn
+        color="white"
+        flat
+        @click="navigateTo('about')"
+      >
+        <span>Statistics</span>
+        <v-icon>trending_up</v-icon>
+      </v-btn>
+    </v-bottom-nav>
+  </v-app>
 </template>
 
-<style lang="scss">
-.menu-item {
-  @apply px-8 py-5 inline-block border-b-2 border-blue-darkest;
-
-  &:hover {
-    @apply text-white;
+<script>
+  export default {
+    props: {
+      source: String
+    },
+    methods: {
+      navigateTo(route) {
+        this.$router.push(route);
+      },
+    }
   }
-}
-
-.router-link-exact-active {
-  @apply text-white border-b-2 border-indigo-lighter;
-}
-</style>
+</script>
